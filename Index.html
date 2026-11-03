@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d1b">
+<title>Ғарыш сыры — SpaceMath</title>
+<style>
+:root{
+ --bg:#080d1b;--panel:#101a2e;--panel2:#14213a;--line:rgba(164,190,235,.15);
+ --text:#eef4ff;--muted:#9aaaca;--gold:#f2c879;--cyan:#78d9ef;
+ --green:#73d6a0;--red:#ff8c9b;--shadow:0 18px 50px rgba(0,0,0,.28)
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:
+ radial-gradient(ellipse at 15% 0%,rgba(44,75,133,.28),transparent 38%),
+ radial-gradient(ellipse at 90% 30%,rgba(87,48,122,.17),transparent 32%),var(--bg);min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.shell{max-width:1240px;margin:auto;padding:24px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,#273b64,#15233f);border:1px solid var(--line);font-size:23px}
+.brand h1{font-size:18px;letter-spacing:.13em;margin:0}
+.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.2em;margin-top:4px}
+.topstats{display:flex;gap:10px;flex-wrap:wrap}
+.stat{background:rgba(17,28,49,.85);border:1px solid var(--line);padding:9px 14px;border-radius:13px;min-width:105px}
+.stat span{display:block;color:var(--muted);font-size:11px}.stat strong{font-size:17px;color:var(--gold)}
+.hero{padding:30px;border:1px solid var(--line);border-radius:25px;background:linear-gradient(115deg,rgba(22,39,68,.96),rgba(13,22,42,.91));box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"✦     ·      ✧       ·        ✦";position:absolute;right:4%;top:20px;color:rgba(242,200,121,.35);font-size:25px;letter-spacing:14px}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.22em;text-transform:uppercase}
+.hero h2{font-size:clamp(27px,5vw,43px);line-height:1.12;margin:12px 0 10px;max-width:650px}
+.hero p{color:#b9c7e1;max-width:660px;line-height:1.65;margin:0}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:700;transition:.2s}
+.btn.primary{background:linear-gradient(120deg,#f3d28f,#dcae5c);color:#182033}
+.btn.secondary{background:#1a2a48;color:var(--text);border:1px solid var(--line)}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:28px 2px 14px}
+.section-head h3{margin:0;font-size:20px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.progress-wrap{height:7px;background:#1d2b46;border-radius:99px;overflow:hidden;width:160px}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--gold));transition:.3s}
+.lab-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}
+.lab{background:linear-gradient(155deg,#14213a,#0e1729);border:1px solid var(--line);border-radius:18px;padding:17px 15px;min-height:180px;position:relative;transition:.2s;cursor:pointer}
+.lab:hover{transform:translateY(-4px);border-color:rgba(242,200,121,.5)}
+.lab.active{border-color:var(--gold);box-shadow:0 0 0 1px rgba(242,200,121,.12)}
+.lab-icon{font-size:27px;margin-bottom:13px}.lab h4{font-size:14px;margin:0 0 7px}.lab p{font-size:11px;line-height:1.5;color:var(--muted);margin:0 0 13px}
+.lab-foot{display:flex;justify-content:space-between;align-items:center;color:var(--gold);font-size:11px}
+.content{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:16px;margin-top:20px}
+.card{background:rgba(16,26,46,.92);border:1px solid var(--line);border-radius:20px;padding:23px;box-shadow:var(--shadow)}
+.task-top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:20px}
+.tag{font-size:10px;letter-spacing:.13em;color:var(--cyan);background:rgba(120,217,239,.09);padding:7px 10px;border-radius:99px}
+.task-count{color:var(--muted);font-size:12px}
+.task-title{font-size:21px;margin:0 0 8px}
+.task-context{font-size:13px;color:var(--muted);line-height:1.6;margin:0 0 18px}
+.question{font-size:18px;line-height:1.55;padding:19px;background:#0b1426;border:1px solid var(--line);border-radius:15px;margin-bottom:17px}
+.answer-row{display:flex;gap:10px}
+.answer-row input{flex:1;min-width:0;background:#091222;border:1px solid #2a3b5a;color:var(--text);border-radius:12px;padding:13px 14px;outline:none}
+.answer-row input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(120,217,239,.1)}
+.feedback{display:none;margin-top:14px;padding:13px 14px;border-radius:12px;font-size:13px;line-height:1.55}
+.feedback.show{display:block}.feedback.good{background:rgba(115,214,160,.1);border:1px solid rgba(115,214,160,.35);color:#a5efc4}
+.feedback.bad{background:rgba(255,140,155,.09);border:1px solid rgba(255,140,155,.3);color:#ffc0c8}
+.task-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+.task-actions .btn{padding:10px 14px;font-size:12px}
+.hint{display:none;color:#e9d7a9;background:rgba(242,200,121,.08);border:1px solid rgba(242,200,121,.22);padding:12px;border-radius:12px;font-size:12px;line-height:1.5;margin-top:12px}
+.hint.show{display:block}
+.side-card h4{margin:0 0 13px;font-size:14px}
+.side-card p{font-size:12px;line-height:1.6;color:var(--muted)}
+.mini-progress{height:6px;background:#25334c;border-radius:20px;overflow:hidden;margin:10px 0 7px}.mini-progress div{height:100%;background:var(--gold);width:0}
+.journal-list{display:grid;gap:8px;margin-top:13px}
+.journal-item{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--line)}
+.journal-item strong{color:var(--text);font-weight:600}
+.result{display:none;text-align:center;padding:26px 10px}
+.result.show{display:block}.result .medal{font-size:45px}.result h3{font-size:25px;margin:10px 0}.result p{color:var(--muted);line-height:1.6}
+.footer{text-align:center;color:#6f7e9d;font-size:11px;padding:26px 0 10px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#1d2e4c;border:1px solid var(--line);padding:11px 16px;border-radius:12px;font-size:12px;transition:.25s;z-index:10}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){.lab-grid{grid-template-columns:repeat(3,1fr)}.content{grid-template-columns:1fr}.side-panel{display:grid;grid-template-columns:1fr 1fr;gap:12px}}
+@media(max-width:580px){.shell{padding:14px}.topbar{align-items:flex-start;flex-direction:column}.hero{padding:23px}.lab-grid{grid-template-columns:repeat(2,1fr);gap:9px}.lab{min-height:165px;padding:13px}.lab h4{font-size:13px}.card{padding:17px}.side-panel{grid-template-columns:1fr}.answer-row{flex-direction:column}.answer-row .btn{width:100%}.section-head{align-items:flex-start;flex-direction:column}.progress-wrap{width:100%}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+ <div class="brand"><div class="logo">✦</div><div><h1>ҒАРЫШ СЫРЫ</h1><small>SPACEMATH TRAINING SYSTEM</small></div></div>
+ <div class="topstats">
+  <div class="stat"><span>ЖАЛПЫ ҰПАЙ</span><strong id="points">0</strong></div>
+  <div class="stat"><span>ШЕШІЛГЕН ЕСЕП</span><strong id="solved">0 / 50</strong></div>
+  <div class="stat"><span>ДЕҢГЕЙ</span><strong id="level">1</strong></div>
+ </div>
+</header>
+
+<section class="hero">
+ <div class="eyebrow">Ғарыштық зерттеу бағдарламасы · 01</div>
+ <h2>Ғаламды математика арқылы зертте.</h2>
+ <p>Бес математикалық зертханаға кіріп, ғарыштық миссияларды орында. Әр дұрыс жауап зерттеуіңді алға жылжытады.</p>
+ <div class="hero-actions">
+  <button class="btn primary" onclick="document.getElementById('labs').scrollIntoView({behavior:'smooth'})">Миссияны бастау ↗</button>
+  <button class="btn secondary" onclick="showOverall()">Нәтижелерімді көру</button>
+ </div>
+</section>
+
+<div class="section-head" id="labs">
+ <div><h3>Зерттеу зертханалары</h3><p>Бір зертхананы таңда да, тапсырмаларды ретімен орында.</p></div>
+ <div><div class="progress-wrap"><div class="progress-fill" id="overallBar"></div></div><div style="font-size:10px;color:var(--muted);text-align:right;margin-top:5px" id="overallText">0% аяқталды</div></div>
+</div>
+<section class="lab-grid" id="labGrid"></section>
+
+<section class="content" id="workspace">
+ <main class="card">
+  <div id="taskArea">
+   <div class="task-top"><span class="tag">МИССИЯҒА ДАЙЫНДЫҚ</span><span class="task-count">Зертхана таңдаңыз</span></div>
+   <h3 class="task-title">Алғашқы зерттеуіңді баста</h3>
+   <p class="task-context">Жоғарыдағы бес зертхананың бірін таңда. Әрқайсысында 10 тапсырма бар. Барлығы 50 есеп.</p>
+   <div class="question">Ғарышты зерттеуде математика — ең маңызды құралдардың бірі. Қай зертханадан бастайсың?</div>
+  </div>
+  <div class="result" id="resultArea">
+   <div class="medal">✧</div><div class="eyebrow">МИССИЯ АЯҚТАЛДЫ</div><h3 id="resultTitle">Жарайсың!</h3><p id="resultText"></p>
+   <button class="btn primary" onclick="nextLab()">Келесі зертхана →</button>
+  </div>
+ </main>
+ <aside class="side-panel">
+  <div class="card side-card">
+   <h4>✦ Зерттеу мәртебесі</h4>
+   <p>Барлық зертханалар бойынша жалпы прогресс.</p>
+   <div class="mini-progress"><div id="sideBar"></div></div>
+   <p id="sideProgress">0 / 50 есеп орындалды</p>
+   <div class="journal-list" id="journal">
+    <div class="journal-item"><span>Ашылған зертхана</span><strong>0 / 5</strong></div>
+    <div class="journal-item"><span>Жиналған ұпай</span><strong>0</strong></div>
+   </div>
+  </div>
+  <div class="card side-card">
+   <h4>⌁ Командирге кеңес</h4>
+   <p>Есептің шартын мұқият оқы. Өлшем бірліктеріне назар аудар. Қажет болса, «Ишара алу» батырмасын пайдалан.</p>
+   <p style="color:var(--gold)">Мақсат: математика арқылы ғарыштық құбылыстарды түсіну.</p>
+  </div>
+ </aside>
+</section>
+<div class="footer">ҒАРЫШ СЫРЫ · SPACEMATH · БІЛІМ БЕРУГЕ АРНАЛҒАН ДЕМОНСТРАЦИЯЛЫҚ ТРЕНАЖЕР</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const labs = [
+ {id:"geometry",name:"Геометрия",icon:"◉",desc:"Планеталардың өлшемі мен кеңістіктік пішіндері",mission:"Планетаны зерттеу",tasks:[
+  ["Марстың радиусы шамамен 3 400 км. Диаметрі неше км?","6800","Радиус диаметрдің жартысына тең.","Диаметр радиустан екі есе үлкен: 3 400 × 2."],
+  ["Шеңбердің радиусы 5 см. Оның ұзындығын π = 3,14 деп алып есепте. (см)","31.4","Шеңбер ұзындығы радиус пен π санына байланысты.","Формула: C = 2πr."],
+  ["Шардың диаметрі 12 км. Радиусы неше км?","6","Радиус — диаметрдің жартысы.","Диаметрді 2-ге бөл."],
+  ["Тіктөртбұрыштың ұзындығы 8 см, ені 5 см. Ауданын тап. (см²)","40","Аудан ұзындық пен еннің көбейтіндісі.","S = a × b."],
+  ["Қабырғасы 7 см шаршының периметрін тап. (см)","28","Шаршының төрт қабырғасы тең.","Периметр — төрт қабырғаның қосындысы."],
+  ["Үшбұрыштың табаны 10 см, биіктігі 6 см. Ауданын тап. (см²)","30","Үшбұрыш ауданы тіктөртбұрыш ауданының жартысына тең.","S = (a × h) / 2."],
+  ["Шеңбер диаметрі 20 м. Радиусы неше метр?","10","Радиус диаметрдің жартысы.","20-ны 2-ге бөл."],
+  ["Текшенің бір қыры 3 см. Көлемін тап. (см³)","27","Көлем үш бірдей қырдың көбейтіндісі.","V = a × a × a."],
+  ["Тіктөртбұрыштың ауданы 48 см², ұзындығы 8 см. Ені неше см?","6","Ауданды ұзындыққа бөл.","b = S / a."],
+  ["Шеңбер радиусы 10 см. π = 3,14 болса, ұзындығы неше см?","62.8","Шеңбер ұзындығының формуласын қолдан.","C = 2 × 3,14 × 10."]
+ ]},
+ {id:"algebra",name:"Алгебра",icon:"∑",desc:"Теңдеулер, өрнектер және ғарыш кемесінің қозғалысы",mission:"Ғарыш кемесінің бағыты",tasks:[
+  ["x + 8 = 15 теңдеуіндегі x мәнін тап.","7","Белгісіз қосылғышты табу үшін қосындыдан белгілі қосылғышты азайт.","x = 15 − 8."],
+  ["3x = 27 теңдеуін шеш. x = ?","9","Белгісіз көбейткішті табу үшін көбейтіндіні белгілі көбейткішке бөл.","x = 27 / 3."],
+  ["2x + 5 = 17 теңдеуіндегі x мәнін тап.","6","Алдымен екі жақтан 5-ті азайт.","2x = 12, содан кейін 2-ге бөл."],
+  ["4a − 6 = 10 теңдеуін шеш. a = ?","4","Алдымен екі жаққа да 6 қос.","4a = 16."],
+  ["Кеме 3 сағатта 24 000 км жүрді. Жылдамдығын v = s/t арқылы тап. (км/сағ)","8000","Жылдамдықты табу үшін қашықтықты уақытқа бөл.","24 000 / 3."],
+  ["5(x − 2) = 20 теңдеуін шеш. x = ?","6","Алдымен жақшаны аш немесе екі жағын 5-ке бөл.","x − 2 = 4."],
+  ["2x + 3x = 35. x мәнін тап.","7","Ұқсас мүшелерді біріктір.","5x = 35."],
+  ["Кеме 600 км/сағ жылдамдықпен 4 сағат ұшты. Қашықтығы неше км?","2400","Қашықтықты табу үшін жылдамдықты уақытқа көбейт.","s = v × t."],
+  ["x/4 = 6 теңдеуіндегі x мәнін тап.","24","Белгісіз бөлінгішті табу үшін бөлінді мен бөлгішті көбейт.","x = 6 × 4."],
+  ["7x − 9 = 26 теңдеуін шеш. x = ?","5","Алдымен 9-ды оң жаққа өткіз.","7x = 35."]
+ ]},
+ {id:"numbers",name:"Сандар",icon:"№",desc:"Сандық амалдар, бөлшектер және дәрежелер",mission:"Ғарыш координаталары",tasks:[
+  ["125 + 375 мәнін тап.","500","Жүздіктер мен ондықтарды қос.","125 + 375."],
+  ["900 − 465 мәнін тап.","435","Азайту амалын орында.","900-ден 465-ті азайт."],
+  ["24 × 15 мәнін тап.","360","24 × (10 + 5) түрінде есептеуге болады.","240 + 120."],
+  ["144 : 12 мәнін тап.","12","12-нің қандай санға көбейтілгенде 144 болатынын ойла.","12 × 12 = 144."],
+  ["3/4 бөлшегін ондық бөлшекке айналдыр.","0.75","Алымды бөлімге бөл.","3 : 4."],
+  ["2,5 + 1,75 мәнін тап.","4.25","Ондық бөлшектердің үтірлерін бірінің астына бірін келтір.","2,50 + 1,75."],
+  ["2⁵ мәнін тап.","32","2 санын өзіне бес рет көбейт.","2 × 2 × 2 × 2 × 2."],
+  ["0,6 санын пайызбен өрнекте.","60","Ондық бөлшекті пайызға айналдыру үшін 100-ге көбейт.","0,6 × 100%."],
+  ["Ең үлкен ортақ бөлгішті тап: 18 және 24.","6","Екі санды да қалдықсыз бөлетін ең үлкен санды ізде.","18 бен 24-тің ортақ бөлгіштерін салыстыр."],
+  ["1,2 × 10 мәнін тап.","12","Онға көбейткенде үтір бір орын оңға жылжиды.","1,2 санының ондық үтірін жылжыт."]
+ ]},
+ {id:"statistics",name:"Статистика",icon:"▥",desc:"Ғарыштық деректерді талдау және салыстыру",mission:"Ғарыш деректерін талдау",tasks:[
+  ["Зонд 4 күнде 10, 12, 14 және 16 сурет жіберді. Күніне орташа неше сурет?","13","Барлық мәнді қосып, мәндер санына бөл.","(10 + 12 + 14 + 16) / 4."],
+  ["Температуралар: 8, 10, 12. Орташа мәнін тап.","10","Үш мәннің қосындысын 3-ке бөл.","(8 + 10 + 12) / 3."],
+  ["Деректер: 3, 5, 5, 7, 10. Медиананы тап.","5","Реттелген деректердің ортасындағы мәнді таңда.","Ортадағы, яғни үшінші сан."],
+  ["Деректер: 2, 4, 4, 4, 6. Моданы тап.","4","Ең жиі кездесетін мән — мода.","Қай сан бірнеше рет қайталанады?"],
+  ["Зонд 20 сигнал тіркеді, оның 5-еуі әлсіз. Әлсіз сигналдар жалпы санның неше пайызы?","25","Бөлікті жалпы санға бөліп, 100%-ға көбейт.","5 / 20 × 100%."],
+  ["Екі планетаның температурасы −20°C және −50°C. Айырмасының модулі неше градус?","30","Сандардың сан осіндегі арақашықтығын тап.","|−20 − (−50)|."],
+  ["Деректер: 6, 8, 10, 12. Орташа арифметикалық мәнін тап.","9","Қосындыны төрт мәннің санына бөл.","(6 + 8 + 10 + 12) / 4."],
+  ["Аптадағы бақылаулар: 2, 3, 3, 4, 3. Ең жиі тіркелген мән қанша?","3","Қай сан ең көп қайталанатынын анықта.","Сандардың қайсысы үш рет кездеседі?"],
+  ["Ғалым 40 жұлдыздың 10-ын зерттеді. Зерттелген бөлігі неше пайыз?","25","10-ды 40-қа бөліп, 100-ге көбейт.","10 / 40 × 100%."],
+  ["Екі өлшем 15 және 23. Олардың ауқымын тап.","8","Ауқым — ең үлкен және ең кіші мәндердің айырмасы.","23 − 15."]
+ ]},
+ {id:"models",name:"Модельдік есептер",icon:"⌘",desc:"Ғарыштық жағдайларды есептеу және болжау",mission:"Ғарыштық жағдайды модельдеу",tasks:[
+  ["Кеме 300 км/сағ жылдамдықпен 5 сағат ұшады. Жүрген жолы неше км?","1500","Қашықтық = жылдамдық × уақыт.","300 × 5."],
+  ["Ғарыш станциясында 48 литр су бар. Әр күні 6 литр жұмсалады. Су неше күнге жетеді?","8","Барлық суды бір күндік шығынға бөл.","48 / 6."],
+  ["Зонд әр сағатта 120 км жақындайды. 3 сағатта қанша км жақындайды?","360","Бір сағаттағы қашықтықты сағат санына көбейт.","120 × 3."],
+  ["Бастапқыда 500 дерек болды. Жүйе оның 20%-ын өңдеді. Неше дерек өңделді?","100","Санның пайызын табу үшін оны пайызға көбейтіп, 100-ге бөл.","500 × 20 / 100."],
+  ["Күн панелі 1 сағатта 8 энергия бірлігін өндіреді. 7 сағатта қанша өндіреді?","56","Өнімділікті уақытқа көбейт.","8 × 7."],
+  ["Кеме 900 км жолдың 2/3 бөлігін жүрді. Қанша км жүрді?","600","Алдымен 900-ді 3-ке бөліп, нәтижені 2-ге көбейт.","900 × 2 / 3."],
+  ["Бір құрылғы 15 минутта 30 өлшем жасайды. Сол қарқынмен 60 минутта неше өлшем жасайды?","120","60 минутта төрт 15 минуттық аралық бар.","30 × 4."],
+  ["Станцияда 36 батарея бар. Оның 1/4 бөлігі резервке қалдырылды. Резервте неше батарея бар?","9","36-ны 4-ке бөл.","36 / 4."],
+  ["Кеме 2 сағатта 700 км, келесі 2 сағатта 900 км жүрді. Барлық жолы неше км?","1600","Екі бөліктегі қашықтықтарды қос.","700 + 900."],
+  ["Зерттеу аймағының ауданы 100 км². Оның 30%-ы картаға түсірілді. Қанша км² картаға түсірілді?","30","100-дің 30 пайызын есепте.","100 × 30 / 100."]
+ ]}
+];
+
+let state = loadState();
+let currentLab = null;
+let currentTask = 0;
+let checked = false;
+
+function loadState(){
+ try{
+  const s=JSON.parse(localStorage.getItem("spacemath_state"));
+  if(s && s.completed) return s;
+ }catch(e){}
+ return {points:0,completed:{},attempts:{}};
+}
+function save(){localStorage.setItem("spacemath_state",JSON.stringify(state));}
+function totalSolved(){return Object.values(state.completed).reduce((a,b)=>a+b.length,0);}
+function labSolved(id){return (state.completed[id]||[]).length;}
+function render(){
+ document.getElementById("points").textContent=state.points;
+ document.getElementById("solved").textContent=totalSolved()+" / 50";
+ document.getElementById("level").textContent=1+Math.floor(totalSolved()/10);
+ const pct=Math.round(totalSolved()/50*100);
+ document.getElementById("overallBar").style.width=pct+"%";
+ document.getElementById("overallText").textContent=pct+"% аяқталды";
+ document.getElementById("sideBar").style.width=pct+"%";
+ document.getElementById("sideProgress").textContent=totalSolved()+" / 50 есеп орындалды";
+ const opened=labs.filter(l=>labSolved(l.id)===10).length;
+ document.getElementById("journal").innerHTML=
+ `<div class="journal-item"><span>Аяқталған зертхана</span><strong>${opened} / 5</strong></div>
+ <div class="journal-item"><span>Жиналған ұпай</span><strong>${state.points}</strong></div>
+ <div class="journal-item"><span>Деңгей</span><strong>${1+Math.floor(totalSolved()/10)}</strong></div>`;
+ document.getElementById("labGrid").innerHTML=labs.map(l=>{
+  const n=labSolved(l.id),done=n===10;
+  return `<div class="lab ${currentLab===l.id?'active':''}" onclick="selectLab('${l.id}')">
+   <div class="lab-icon">${l.icon}</div><h4>${l.name}</h4><p>${l.desc}</p>
+   <div class="lab-foot"><span>${done?'✓ Аяқталды':n+'/10 есеп'}</span><span>↗</span></div>
+   <div class="mini-progress"><div style="width:${n*10}%"></div></div>
+  </div>`;
+ }).join("");
+}
+function selectLab(id){
+ currentLab=id;
+ const lab=labs.find(x=>x.id===id);
+ const completed=state.completed[id]||[];
+ currentTask=0;
+ while(currentTask<10 && completed.includes(currentTask)) currentTask++;
+ if(currentTask>=10){showLabResult(lab);render();return;}
+ checked=false;
+ document.getElementById("resultArea").classList.remove("show");
+ document.getElementById("taskArea").style.display="block";
+ renderTask();
+ render();
+ document.getElementById("workspace").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function renderTask(){
+ const lab=labs.find(x=>x.id===currentLab);
+ if(!lab)return;
+ const done=state.completed[currentLab]||[];
+ while(currentTask<10 && done.includes(currentTask))currentTask++;
+ if(currentTask>=10){showLabResult(lab);return;}
+ const t=lab.tasks[currentTask];
+ document.getElementById("taskArea").innerHTML=`
+  <div class="task-top"><span class="tag">${lab.mission.toUpperCase()}</span><span class="task-count">ТАПСЫРМА ${currentTask+1} / 10</span></div>
+  <h3 class="task-title">${lab.icon} ${lab.name}</h3>
+  <p class="task-context">Ғарыш миссиясын жалғастыру үшін есепті шеш. Жауапты сан түрінде енгіз.</p>
+  <div class="question">${t[0]}</div>
+  <div class="answer-row"><input id="answer" type="text" inputmode="decimal" autocomplete="off" placeholder="Жауабыңды енгіз..." onkeydown="if(event.key==='Enter')checkAnswer()"><button class="btn primary" onclick="checkAnswer()">Тексеру</button></div>
+  <div class="feedback" id="feedback"></div>
+  <div class="hint" id="hint">✦ ${t[2]}</div>
+  <div class="task-actions">
+   <button class="btn secondary" onclick="showHint()">Ишара алу</button>
+   <button class="btn secondary" onclick="skipTask()">Кейінірек өту</button>
+   <button class="btn primary" id="nextBtn" style="display:none" onclick="nextTask()">Келесі есеп →</button>
+  </div>`;
+ checked=false;
+}
+function normalize(v){
+ return String(v).trim().replace(/\s/g,"").replace(",",".").replace(/−/g,"-");
+}
+function checkAnswer(){
+ if(checked)return;
+ const lab=labs.find(x=>x.id===currentLab),t=lab.tasks[currentTask];
+ const input=document.getElementById("answer");
+ const value=normalize(input.value);
+ const expected=normalize(t[1]);
+ const fb=document.getElementById("feedback");
+ if(!value){toast("Алдымен жауабыңды енгіз.");return;}
+ if(value===expected){
+  checked=true;
+  state.completed[currentLab]=state.completed[currentLab]||[];
+  if(!state.completed[currentLab].includes(currentTask)){
+   state.completed[currentLab].push(currentTask);state.points+=10;save();
+  }
+  fb.className="feedback show good";
+  fb.innerHTML="✦ Дұрыс жауап! "+t[3]+" <br><strong>+10 ұпай</strong>";
+  input.disabled=true;
+  document.getElementById("nextBtn").style.display="inline-block";
+  render();
+ }else{
+  fb.className="feedback show bad";
+  fb.textContent="Бұл жауап сәйкес келмеді. Тағы бір рет ойланып көр немесе ишараны пайдалан.";
+  state.attempts[currentLab+":"+currentTask]=(state.attempts[currentLab+":"+currentTask]||0)+1;save();
+ }
+}
+function showHint(){document.getElementById("hint").classList.add("show");}
+function nextTask(){
+ if(!checked)return;
+ currentTask++;
+ renderTask();
+ render();
+}
+function skipTask(){
+ toast("Бұл есепті кейін қайта орындауға болады.");
+ const done=state.completed[currentLab]||[];
+ let next=(currentTask+1)%10;
+ for(let i=0;i<10;i++){
+  if(!done.includes(next)){currentTask=next;renderTask();return;}
+  next=(next+1)%10;
+ }
+ showLabResult(labs.find(x=>x.id===currentLab));
+}
+function showLabResult(lab){
+ document.getElementById("taskArea").style.display="none";
+ const result=document.getElementById("resultArea");
+ result.classList.add("show");
+ document.getElementById("resultTitle").textContent=lab.name+" зертханасы аяқталды!";
+ document.getElementById("resultText").textContent="Сен осы зертханадағы 10 тапсырманы орындадың. Жиналған ұпай: "+state.points+". Келесі зерттеуге дайынсың ба?";
+}
+function nextLab(){
+ const index=labs.findIndex(l=>l.id===currentLab);
+ const next=labs[(index+1)%labs.length];
+ selectLab(next.id);
+}
+function showOverall(){
+ const pct=Math.round(totalSolved()/50*100);
+ toast("Жалпы нәтиже: "+totalSolved()+" / 50 есеп · "+state.points+" ұпай · "+pct+"%");
+}
+function toast(msg){
+ const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");
+ clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove("show"),2500);
+}
+render();
+</script>
+</body>
+</html>
